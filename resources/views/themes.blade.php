@@ -23,6 +23,11 @@
 
         <div class="content">
             <h3 style="color: #ff4930">Текущие категории</h3>
+            <ul>
+                @foreach($themes as $theme)
+                    <li>{{ $theme->category }}</li>
+                @endforeach
+            </ul>
             <form action="add_theme" method="post">
                 <input type="text" name="new_theme" placeholder="Новая категрия вопросов" required>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -32,41 +37,17 @@
                 <tr style="background-color: #eeeeee">
                     <td style="background-color: #ffffff"></td>
                     <td>Категория</td>
-                </tr>
-                @foreach($themes as $theme)
-                    <tr>
-                        <td><a href="{{ 'del_theme'.$theme->id }}">Удалить категорию полностью</a></td>
-                        <td><a href="{{ 'theme'.$theme->id }}">{{ $theme->category }}</a></td>
-                    </tr>
-                @endforeach
-            </table>
-            <table style="display: inline-block; text-align: center; vertical-align: top">
-                <tr style="background-color: #eeeeee">
                     <td>Количество вопросов</td>
-                </tr>
-                @foreach($questions as $question)
-                    <tr>
-                        <td>{{ $question->$countQuest }}</td>
-                    </tr>
-                @endforeach
-            </table>
-            <table style="display: inline-block; text-align: center; vertical-align: top">
-                <tr style="background-color: #eeeeee">
                     <td>Опубликовано</td>
-                </tr>
-                @foreach($answers as $answer)
-                    <tr>
-                        <td>{{ $answer->$countAnswer }}</td>
-                    </tr>
-                @endforeach
-            </table>
-            <table style="display: inline-block; text-align: center; vertical-align: top">
-                <tr style="background-color: #eeeeee">
                     <td>Без ответа</td>
                 </tr>
-                @foreach($withoutAnswers as $withoutAnswer)
+                @foreach($posts as $post)
                     <tr>
-                        <td>{{ $withoutAnswer->$countAnswer }}</td>
+                        <td><a href="{{ 'del_theme'.$post->id }}">Удалить категорию полностью</a></td>
+                        <td><a href="{{ 'theme'.$post->id }}">{{ $post->category }}</a></td>
+                        <td>{{ $post->question }}</td>
+                        <td>{{ $post->published }}</td>
+                        <td>{{ $post->answer }}</td>
                     </tr>
                 @endforeach
             </table>

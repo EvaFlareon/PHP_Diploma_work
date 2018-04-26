@@ -69,7 +69,7 @@
                                 <button type="submit" name="isNewAuthor" value="{{ $row->id }}">Изменить автора</button>
                             </td>
                             <td>{{ $row->user_email }}</td>
-                            <td><a href="{{ 'delete_quest'.$row->id }}">Удалить вопрос</a></td>
+                            <td><a href="{{ $row->themesId.'del_question'.$row->id }}">Удалить вопрос</a></td>
                         </tr>
                         <input type="hidden" name="currentCategory" value="{{ $row->themesId }}">
                     @endforeach

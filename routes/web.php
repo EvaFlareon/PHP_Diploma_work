@@ -23,17 +23,17 @@ Route::post('result', ['uses' => 'AdminController@addAdmin']); // Добавле
 
 Route::post('update', ['uses' => 'AdminController@newPass']); // Изменение пароля администратора
 
-Route::get('d{id}', ['uses' => 'AdminController@delAdmin']); // Удаление администратора
+Route::get('del_admin{id}', ['uses' => 'AdminController@delAdmin']); // Удаление администратора
 
 Route::get('themes', 'AdminController@themes'); // Отображение панели администратора для работы с категориями вопросов
 
 Route::post('add_theme', ['uses' => 'AdminController@addTheme']); // Добавление категории вопросов
 
-Route::get('del_theme{cat}', 'AdminController@delTheme'); // Удаление категории вопросов
+Route::get('del_theme{id}', ['uses' => 'AdminController@delTheme']); // Удаление категории вопросов
 
 Route::post('up_question', ['uses' => 'AdminController@questionWithoutAnswer']); // Управление вопросами без ответов из всех категорий
 
-Route::get('delete_quest{id}', 'AdminController@delQuestionWithoutAnswer'); //Удаление вопроса без ответов (вне категорий)
+Route::get('del_quest{id}', 'AdminController@delQuestionWithoutAnswer'); //Удаление вопроса без ответов (вне категорий)
 
 Route::get('theme{id}', 'AdminController@theme'); // Отображение информации по выбранной категории (для администратора)
 

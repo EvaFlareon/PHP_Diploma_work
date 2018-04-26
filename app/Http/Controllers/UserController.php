@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use function PHPSTORM_META\type;
 
 class UserController extends Controller
 {
     public function welcome()
     {
+        session()->forget('user_name');
         $categories = DB::table('themes')
             ->where('status', 2)
             ->join('posts', 'themes.id', '=', 'posts.category')

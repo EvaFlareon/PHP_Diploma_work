@@ -57,7 +57,7 @@
                             <td>{{ $admin->email }}</td>
                             <td>{{ $admin->password }}</td>
                             <td><input type="text" name="newPass"><button type="submit" name="password" value="{{ $admin->id }}">Изменить пароль</button></td>
-                            <td><a href="{{ 'd'.$admin->id }}">Удалить администратора</a></td>
+                            <td><a href="{{ 'del_admin'.$admin->id }}">Удалить администратора</a></td>
                         </tr>
                     @endforeach
                 </table>

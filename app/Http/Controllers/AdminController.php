@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+
 class AdminController extends Controller
 {
     public function auth(Request $request)
@@ -20,7 +21,10 @@ class AdminController extends Controller
                 return view('admin', compact("session('user_name')", 'adminList'));
             }
         }
-        $categories = DB::table('posts')
+        $categories = DB::table('themes')
+            ->where('status', 2)
+            ->join('posts', 'themes.id', '=', 'posts.category')
+            ->select('themes.id', 'themes.category')
             ->groupBy('category')
             ->get();
         return view('welcome', compact('categories'));
@@ -28,6 +32,15 @@ class AdminController extends Controller
 
     public function admins()
     {
+        if (!(session('user_name'))) {
+            $categories = DB::table('themes')
+                ->where('status', 2)
+                ->join('posts', 'themes.id', '=', 'posts.category')
+                ->select('themes.id', 'themes.category')
+                ->groupBy('category')
+                ->get();
+            return view('welcome', compact('categories'));
+        }
         $adminList = DB::table('admins')->get();
         return view('admin', compact('adminList'));
     }
@@ -65,24 +78,26 @@ class AdminController extends Controller
 
     public function themes()
     {
+        if (!(session('user_name'))) {
+            $categories = DB::table('themes')
+                ->where('status', 2)
+                ->join('posts', 'themes.id', '=', 'posts.category')
+                ->select('themes.id', 'themes.category')
+                ->groupBy('category')
+                ->get();
+            return view('welcome', compact('categories'));
+        }
         $themes = DB::table('themes')->get();
         $statuses = DB::table('status')->get();
-        $questions = DB::table('posts')
-            ->select(DB::raw('count(question)'))
-            ->groupBy('category')
+        $posts = DB::table('posts')
+            ->join('themes', 'posts.category', '=', 'themes.id')
+            ->select('themes.id',
+                'themes.category',
+                DB::raw('count(posts.question) as question'),
+                DB::raw('sum(if(posts.status=2,1,0)) as published'),
+                DB::raw('sum(if(posts.answer is null,1,0)) as answer'))
+            ->groupBy('posts.category')
             ->get();
-        $answers = DB::table('posts')
-            ->where('status', 2)
-            ->select(DB::raw('count(answer)'))
-            ->groupBy('category')
-            ->get();
-        $withoutAnswers = DB::table('posts')
-            ->whereNull('answer')
-            ->select(DB::raw('count(answer)'))
-            ->groupBy('category')
-            ->get();
-        $countQuest = 'count(question)';
-        $countAnswer = 'count(answer)';
         $allWithoutAnswers = DB::table('posts')
             ->whereNull('answer')
             ->join('themes', 'posts.category', '=', 'themes.id')
@@ -90,7 +105,7 @@ class AdminController extends Controller
             ->select('themes.category', 'posts.question', 'posts.date', 'status.status', 'posts.answer', 'posts.user_name', 'posts.user_email', 'posts.id')
             ->orderBy('date', 'asc')
             ->get();
-        return view('themes', compact('themes', 'questions', 'countQuest', 'answers', 'withoutAnswers', 'countAnswer', 'allWithoutAnswers', 'statuses'));
+        return view('themes', compact('themes', 'statuses', 'posts', 'allWithoutAnswers'));
     }
 
     public function addTheme(Request $request)
@@ -100,13 +115,13 @@ class AdminController extends Controller
         return $this->themes();
     }
 
-    public function delTheme($cat)
+    public function delTheme($id)
     {
         DB::table('posts')
-            ->where('category', $cat)
+            ->where('category', $id)
             ->delete();
         DB::table('themes')
-            ->where('id', $cat)
+            ->where('id', $id)
             ->delete();
         return $this->themes();
     }
@@ -163,6 +178,15 @@ class AdminController extends Controller
 
     public function theme($id)
     {
+        if (!(session('user_name'))) {
+            $categories = DB::table('themes')
+                ->where('status', 2)
+                ->join('posts', 'themes.id', '=', 'posts.category')
+                ->select('themes.id', 'themes.category')
+                ->groupBy('category')
+                ->get();
+            return view('welcome', compact('categories'));
+        }
         $table = DB::table('posts')
             ->where('posts.category', $id)
             ->join('themes', 'posts.category', '=', 'themes.id')
