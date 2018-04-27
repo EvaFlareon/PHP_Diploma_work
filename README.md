@@ -5,10 +5,12 @@ The project is based on the task to the diploma project of the University of net
 [An example of the work of the project](https://evaflareon.000webhostapp.com/laravel/public/).
 ***
 [Database structure](https://docs.google.com/document/d/1irvVNLBiRAsLjAWxvcR3v4zGdAY0Eu73enlMGhynLSM/edit?usp=sharing).
+***
 Requirements
 -----------------------------------
 * PHP 7.1.3 or higher;
 * PDO-SQLite PHP extension enabled.
+***
 Install
 -----------------------------------
 ```
