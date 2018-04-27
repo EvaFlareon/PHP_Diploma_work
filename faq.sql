@@ -43,9 +43,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@amin.ru', 'admin', NULL, NULL, NULL),
-(2, 'test', 'test@test.ru', 'test', NULL, NULL, NULL),
-(3, 'test1', 'test1@test.ru', 'test1', NULL, NULL, NULL);
+(1, 'admin', 'admin@amin.ru', 'admin', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
