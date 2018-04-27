@@ -13,8 +13,10 @@ Requirements
 ***
 Install
 -----------------------------------
-`git clone https://github.com/EvaFlareon/PHP_Diploma_work.git`
-`cd PHP_Diploma_work`
-`composer install`
-`php artisan migrate`
-`php artisan db:seed`
+```php
+git clone https://github.com/EvaFlareon/PHP_Diploma_work.git
+cd PHP_Diploma_work
+composer install
+php artisan migrate
+php artisan db:seed
+```
